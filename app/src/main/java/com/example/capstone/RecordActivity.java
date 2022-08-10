@@ -222,7 +222,7 @@ public class RecordActivity extends AppCompatActivity {
             public void handleMessage(@NonNull Message msg) {
                 if (input_message.equalsIgnoreCase("POSITIVE")) {
                     txtView.setTextColor(Color.parseColor("#EE334E"));
-                    txtView.setText("코로나19 기침소리 판별 결과 양성(Positive) 입니다.\n가까운 병원에서 검사를 받아보세요.");
+                    txtView.setText("코로나19 기침소리 판별 결과 양성(Positive) 입니다.\n\n가까운 병원에서 검사를 받아보세요.");
                     imageView.setImageResource(R.drawable.warning);
                 } else if (input_message.equalsIgnoreCase("NEGATIVE")) {
                     txtView.setTextColor(Color.parseColor("#00A2E5"));
