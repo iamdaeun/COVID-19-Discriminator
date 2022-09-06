@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.sql.Struct;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
@@ -220,22 +221,26 @@ public class RecordActivity extends AppCompatActivity {
         final Handler handler = new Handler() {
             @SuppressLint("SetTextI18n")
             public void handleMessage(@NonNull Message msg) {
-                if (input_message.equalsIgnoreCase("POSITIVE")) {
-                    txtView.setTextColor(Color.parseColor("#EE334E"));
-                    txtView.setText("코로나19 기침소리 판별 결과 양성(Positive) 입니다.\n\n가까운 병원에서 검사를 받아보세요.");
-                    imageView.setImageResource(R.drawable.warning);
-                } else if (input_message.equalsIgnoreCase("NEGATIVE")) {
-                    txtView.setTextColor(Color.parseColor("#00A2E5"));
-                    txtView.setText("코로나19 기침소리 판별 결과 음성(Negative) 입니다.");
-                    imageView.setImageResource(R.drawable.safe);
-                } else if (input_message.equalsIgnoreCase("RETRY")) {
-                    txtView.setTextColor(Color.parseColor("#857C7A"));
-                    txtView.setText("다시 시도해 주세요");
-                    imageView.setImageResource(R.drawable.retry);
-                }
+                if(input_message != null) {
+                    String[] msgArr = input_message.split("\\s");
 
-                startButton.setEnabled(true);
-                playButton.setEnabled(true);
+                    if (msgArr[0].equalsIgnoreCase("POSITIVE")) {
+                        txtView.setTextColor(Color.parseColor("#EE334E"));
+                        txtView.setText("코로나19 기침소리 판별 결과 양성(Positive) 입니다.\n가까운 병원에서 검사를 받아보세요.\n\n예측률 : " + msgArr[1] + "%");
+                        imageView.setImageResource(R.drawable.warning);
+                    } else if (msgArr[0].equalsIgnoreCase("NEGATIVE")) {
+                        txtView.setTextColor(Color.parseColor("#00A2E5"));
+                        txtView.setText("코로나19 기침소리 판별 결과 음성(Negative) 입니다.\n\n예측률 : " + msgArr[1] + "%");
+                        imageView.setImageResource(R.drawable.safe);
+                    } else if (msgArr[0].equalsIgnoreCase("RETRY")) {
+                        txtView.setTextColor(Color.parseColor("#857C7A"));
+                        txtView.setText("다시 시도해 주세요.");
+                        imageView.setImageResource(R.drawable.retry);
+                    }
+
+                    startButton.setEnabled(true);
+                    playButton.setEnabled(true);
+                }
             }
         };
     }
