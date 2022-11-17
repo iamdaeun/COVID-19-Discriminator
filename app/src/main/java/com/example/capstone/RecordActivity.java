@@ -46,6 +46,7 @@ public class RecordActivity extends AppCompatActivity {
     public SendData mSendData;
     public PlayData mPlayData;
     public ResetHandler resetHandler = new ResetHandler();
+    public LoadHandler loadHandler = new LoadHandler();
 
     private static final String IP = "117.16.123.50";
     private static final int PORT = 9999;
@@ -98,8 +99,9 @@ public class RecordActivity extends AppCompatActivity {
 
         startButton.setOnClickListener(v -> {
             if (checkNetworkState(RecordActivity.this)) {
-                Message message = resetHandler.obtainMessage();
-                resetHandler.sendMessage(message);
+                // 녹음 버튼을 누르면 바로 녹음중 화면으로 변경
+                Message reset_message = resetHandler.obtainMessage();
+                resetHandler.sendMessage(reset_message);
 
                 startButton.setEnabled(false);
                 playButton.setEnabled(false);
@@ -186,6 +188,9 @@ public class RecordActivity extends AppCompatActivity {
                     //Log.w("client", "버퍼 생성 성공");
 
                     try {
+                        Message hold_message = loadHandler.obtainMessage();
+                        loadHandler.sendMessage(hold_message);
+
                         while ((byteBuffer.position() + SAMPLING_RATE_IN_HZ) < BUFFER_BYTE_SIZE) {
                             retBufferSize = audioRecord.read(BufferRecord, 0, SAMPLING_RATE_IN_HZ);
                             byteBuffer.put(BufferRecord, 0, retBufferSize);
@@ -209,6 +214,7 @@ public class RecordActivity extends AppCompatActivity {
                     audioRecord.stop();
                     audioRecord.release();
 
+                    input_message = "positive 90";
                     Message msg = handler.obtainMessage();
                     handler.sendMessage(msg);
                 }
@@ -292,6 +298,17 @@ public class RecordActivity extends AppCompatActivity {
             Glide.with(RecordActivity.this).load(R.raw.recording2).into(imageView);
             txtView.setTextColor(Color.parseColor("#857C7A"));
             txtView.setText("녹음 중...");
+        }
+    }
+
+    class LoadHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            Glide.with(RecordActivity.this).load(R.raw.loading).into(imageView);
+            txtView.setTextColor(Color.parseColor("#857C7A"));
+            txtView.setText("진단 중...");
         }
     }
 }
