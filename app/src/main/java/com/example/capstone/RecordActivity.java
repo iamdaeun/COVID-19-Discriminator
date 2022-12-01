@@ -231,11 +231,11 @@ public class RecordActivity extends AppCompatActivity {
 
                     if (msgArr[0].equalsIgnoreCase("POSITIVE")) {
                         txtView.setTextColor(Color.parseColor("#EE334E"));
-                        txtView.setText("코로나19 기침소리 판별 결과 양성(Positive) 입니다.\n가까운 병원에서 검사를 받아보세요.\n\n예측률 : " + msgArr[1] + "%");
+                        txtView.setText("COVID-19 기침소리 판별 결과 양성(Positive) 입니다.\n가까운 병원에서 검사를 받아보세요.\n\n정확도 : " + msgArr[1] + "%");
                         imageView.setImageResource(R.drawable.warning);
                     } else if (msgArr[0].equalsIgnoreCase("NEGATIVE")) {
                         txtView.setTextColor(Color.parseColor("#00A2E5"));
-                        txtView.setText("코로나19 기침소리 판별 결과 음성(Negative) 입니다.\n\n예측률 : " + msgArr[1] + "%");
+                        txtView.setText("COVID-19 기침소리 판별 결과 음성(Negative) 입니다.\n\n정확도 : " + msgArr[1] + "%");
                         imageView.setImageResource(R.drawable.safe);
                     } else if (msgArr[0].equalsIgnoreCase("RETRY")) {
                         txtView.setTextColor(Color.parseColor("#857C7A"));
